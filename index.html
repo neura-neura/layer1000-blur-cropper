@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Layer 1000</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpNv75ju_Tkb_6k1HT9bcPZpJBGFxElFTVHg&s">
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle at top, #1f2937, #020617);
+      --card-bg: rgba(15, 23, 42, 0.9);
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --border-subtle: rgba(148, 163, 184, 0.3);
+      --radius-lg: 18px;
+      --radius-xl: 26px;
+      --shadow-soft: 0 24px 80px rgba(15, 23, 42, 0.85);
+      --transition-fast: 150ms ease-out;
+      --transition-med: 220ms ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      padding: 32px 16px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1160px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      padding: 0 4px;
+    }
+
+    .title {
+      font-size: 1.3rem;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .title-badge {
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .card {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 4fr);
+      gap: 20px;
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      padding: 18px 18px 20px;
+      backdrop-filter: blur(22px);
+    }
+
+    @media (max-width: 960px) {
+      .card {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .controls-group {
+      padding: 14px 14px 16px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: radial-gradient(circle at top left, #111827, #020617);
+    }
+
+    .controls-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .file-input-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .file-label {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: linear-gradient(135deg, #020617, #0f172a);
+      color: var(--text-main);
+      font-size: 0.85rem;
+      cursor: pointer;
+      outline: none;
+      transition: transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        border-color var(--transition-fast),
+        background var(--transition-med);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.9);
+    }
+
+    .file-label:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.95);
+      background: linear-gradient(135deg, #020617, #0b1120);
+    }
+
+    .file-label span.icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 30% 0, #38bdf8, #0f172a);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.35),
+        0 0 25px rgba(56, 189, 248, 0.5);
+      font-size: 0.9rem;
+    }
+
+    .file-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .file-hint strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .slider-group {
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .slider-header span.value {
+      font-variant-numeric: tabular-nums;
+      color: var(--accent);
+    }
+
+    .slider-wrapper {
+      position: relative;
+      padding-block: 4px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      appearance: none;
+      height: 5px;
+      border-radius: 999px;
+      background: linear-gradient(
+        90deg,
+        rgba(56, 189, 248, 0.9),
+        rgba(56, 189, 248, 0.1)
+      );
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #0f172a;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.24),
+        0 6px 16px rgba(15, 23, 42, 0.95);
+      cursor: pointer;
+      transition: transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.28),
+        0 10px 24px rgba(15, 23, 42, 1);
+    }
+
+    input[type="range"]::-moz-range-track {
+      height: 5px;
+      border-radius: 999px;
+      background: linear-gradient(
+        90deg,
+        rgba(56, 189, 248, 0.9),
+        rgba(56, 189, 248, 0.1)
+      );
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #0f172a;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.24),
+        0 6px 16px rgba(15, 23, 42, 0.95);
+      cursor: pointer;
+      transition: transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+
+    .download-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 15px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.8);
+      background: radial-gradient(circle at top left, #0679a9, #0b1120);
+      color: #ecfeff;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      outline: none;
+      transition: transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        border-color var(--transition-fast),
+        background var(--transition-med),
+        opacity var(--transition-fast);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 1),
+        0 0 0 1px rgba(56, 189, 248, 0.4);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 24px 50px rgba(15, 23, 42, 1),
+        0 0 0 1px rgba(56, 189, 248, 0.6);
+      background: radial-gradient(circle at top left, #0ea5e9, #020617);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.45;
+      cursor: default;
+      box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.4);
+      background: linear-gradient(135deg, #020617, #020617);
+      border-color: rgba(148, 163, 184, 0.7);
+    }
+
+    .btn-primary svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .download-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .download-hint strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .preview-container {
+      position: relative;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: radial-gradient(circle at top left, #020617, #020617);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .preview-inner {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      background: radial-gradient(circle at center, #0b1120, #020617);
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 1 / 1;
+    }
+
+    canvas {
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+      border-radius: 10px;
+    }
+
+    .preview-overlay {
+      position: absolute;
+      inset: 10px;
+      border-radius: 12px;
+      border: 1px dashed rgba(148, 163, 184, 0.35);
+      pointer-events: none;
+    }
+
+    .preview-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: #6b7280;
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 0 24px;
+    }
+
+    .preview-placeholder span.icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: radial-gradient(circle at 30% 0, #111827, #020617);
+      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.95);
+      font-size: 0.85rem;
+      color: #e5e7eb;
+    }
+
+    .preview-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 0.72rem;
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2);
+    }
+
+    .pill span.label {
+      color: #e5e7eb;
+    }
+
+    .preview-meta-right {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .app-footer {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      padding: 0 4px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .app-footer span strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .pill-outline {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.85);
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div>
+        <div class="title">
+          <span>Layer 1000</span>
+          <span class="title-badge">Blur cropper</span>
+        </div>
+        <div class="subtitle">
+          Load any image and generate a 1000×1000 square version with a blurred background.
+        </div>
+      </div>
+    </header>
+
+    <main class="card">
+      <section class="controls" aria-label="Controles de imagen">
+        <div class="controls-group">
+          <div class="controls-title">Input</div>
+          <div class="file-input-wrapper">
+            <label for="fileInput" class="file-label">
+              <span class="icon">＋</span>
+              <span>Choose or drag image</span>
+            </label>
+            <input
+              type="file"
+              id="fileInput"
+              accept="image/*"
+            />
+            <div class="file-hint">
+              Upload a <strong>JPG, PNG o similar</strong> file. 
+              The final image will always be <strong>1000 × 1000 px</strong>.
+            </div>
+          </div>
+        </div>
+
+        <div class="controls-group">
+          <div class="controls-title">Blurred background</div>
+          <div class="slider-group">
+            <div class="slider-header">
+              <span>Background blur intensity</span>
+              <span class="value" id="blurValue">25 px</span>
+            </div>
+            <div class="slider-wrapper">
+              <input
+                type="range"
+                id="blurRange"
+                min="0"
+                max="60"
+                value="25"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="controls-group">
+          <div class="controls-title">Output</div>
+          <div class="download-group">
+            <button id="downloadBtn" class="btn-primary" disabled>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M12 2.75a.75.75 0 0 1 .75.75v9.19l2.47-2.47a.75.75 0 1 1 1.06 1.06l-3.75 3.75a.75.75 0 0 1-1.06 0L7.72 12.28a.75.75 0 1 1 1.06-1.06l2.47 2.47V3.5A.75.75 0 0 1 12 2.75ZM5 14.75a.75.75 0 0 1 .75.75v3.5h12.5v-3.5a.75.75 0 0 1 1.5 0v4.25a.75.75 0 0 1-.75.75H5.75A.75.75 0 0 1 5 19.75V15.5a.75.75 0 0 1 .75-.75Z"
+                />
+              </svg>
+              <span>Download image 1000 × 1000</span>
+            </button>
+            <div class="download-hint">
+              The download generates a <strong>PNG</strong> file with the image centered and the background adjusted to the blur you see in the preview.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="preview-container" aria-label="Preview">
+        <div class="preview-inner">
+          <canvas id="previewCanvas" width="1000" height="1000"></canvas>
+          <div class="preview-overlay"></div>
+          <div class="preview-placeholder" id="previewPlaceholder">
+            <span class="icon">1000</span>
+            <div>The preview will appear here in actual size 1000 × 1000 px.</div>
+            <div style="font-size: 0.72rem;">
+              Upload an image to get started. You can adjust the background blur to taste.
+            </div>
+          </div>
+        </div>
+        <div class="preview-meta">
+          <div class="pill">
+            <span class="pill-dot"></span>
+            <span class="label">Fixed canvas 1000 × 1000</span>
+          </div>
+          <div class="preview-meta-right">
+            <span>Background: Rescaled image with blur</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <span>
+        The crop respects the proportions of the original image and centers it on the blurred background.
+      </span>
+      <span class="pill-outline">
+        Real-time blur adjustment
+      </span>
+    </footer>
+  </div>
+
+  <script>
+    const fileInput = document.getElementById("fileInput");
+    const blurRange = document.getElementById("blurRange");
+    const blurValue = document.getElementById("blurValue");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const canvas = document.getElementById("previewCanvas");
+    const ctx = canvas.getContext("2d");
+    const previewPlaceholder = document.getElementById("previewPlaceholder");
+    const fileLabel = document.querySelector(".file-label");
+
+    let loadedImage = null;
+
+    function updateBlurLabel() {
+      blurValue.textContent = blurRange.value + " px";
+    }
+
+    function renderCanvas() {
+      if (!loadedImage) return;
+
+      const blurAmount = parseInt(blurRange.value, 10) || 0;
+
+      const targetSize = 1000;
+      const cw = canvas.width;
+      const ch = canvas.height;
+
+      if (cw !== targetSize || ch !== targetSize) {
+        canvas.width = targetSize;
+        canvas.height = targetSize;
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const iw = loadedImage.width;
+      const ih = loadedImage.height;
+
+      const scaleBg = Math.max(targetSize / iw, targetSize / ih);
+      const bgW = iw * scaleBg;
+      const bgH = ih * scaleBg;
+      const bgX = (targetSize - bgW) / 2;
+      const bgY = (targetSize - bgH) / 2;
+
+      ctx.save();
+      ctx.filter = blurAmount > 0 ? "blur(" + blurAmount + "px)" : "none";
+      ctx.drawImage(loadedImage, bgX, bgY, bgW, bgH);
+      ctx.restore();
+
+      const scaleFg = Math.min(targetSize / iw, targetSize / ih);
+      const fgW = iw * scaleFg;
+      const fgH = ih * scaleFg;
+      const fgX = (targetSize - fgW) / 2;
+      const fgY = (targetSize - fgH) / 2;
+
+      ctx.drawImage(loadedImage, fgX, fgY, fgW, fgH);
+    }
+
+    function handleImageLoad(imgSrc) {
+      const img = new Image();
+      img.onload = () => {
+        loadedImage = img;
+        if (previewPlaceholder) {
+          previewPlaceholder.style.display = "none";
+        }
+        downloadBtn.disabled = false;
+        renderCanvas();
+      };
+      img.src = imgSrc;
+    }
+
+    fileInput.addEventListener("change", (event) => {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        handleImageLoad(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Drag and drop functionality
+    const originalBg = 'linear-gradient(135deg, #020617, #0f172a)';
+    const dragBg = 'linear-gradient(135deg, #020617, #0b1120)';
+
+    fileLabel.addEventListener('dragenter', (e) => {
+      e.preventDefault();
+      e.currentTarget.style.background = dragBg;
+    });
+
+    fileLabel.addEventListener('dragover', (e) => {
+      e.preventDefault();
+    });
+
+    fileLabel.addEventListener('dragleave', (e) => {
+      e.preventDefault();
+      if (!e.currentTarget.contains(e.relatedTarget)) {
+        e.currentTarget.style.background = originalBg;
+      }
+    });
+
+    fileLabel.addEventListener('drop', (e) => {
+      e.preventDefault();
+      e.currentTarget.style.background = originalBg;
+
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        const file = files[0];
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            handleImageLoad(e.target.result);
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+    });
+
+    blurRange.addEventListener("input", () => {
+      updateBlurLabel();
+      if (loadedImage) {
+        renderCanvas();
+      }
+    });
+
+    downloadBtn.addEventListener("click", () => {
+      if (!loadedImage) return;
+
+      const dataUrl = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = "imagen_1000x1000.png";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+    updateBlurLabel();
+  </script>
+</body>
+</html>
